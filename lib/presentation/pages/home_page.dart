@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> {
     final isMobile = MediaQuery.of(context).size.width < 600;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home'),
+        // title: const Text('Home'),
       ),
       body: Row(
         children: [
