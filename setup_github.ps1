@@ -16,7 +16,7 @@ Write-Host "Setting up GitHub repository for user: $username" -ForegroundColor Y
 
 # Add remote origin
 Write-Host "Adding remote origin..." -ForegroundColor Cyan
-git remote add origin "https://github.com/$username/training_management.git"
+    git remote add origin "https://github.com/$username/class_flow.git"
 
 # Rename branch to main (GitHub standard)
 Write-Host "Renaming branch to main..." -ForegroundColor Cyan
@@ -27,4 +27,4 @@ Write-Host "Pushing to GitHub..." -ForegroundColor Cyan
 git push -u origin main
 
 Write-Host "Setup complete!" -ForegroundColor Green
-Write-Host "Your repository is now available at: https://github.com/$username/training_management" -ForegroundColor Green 
+Write-Host "Your repository is now available at: https://github.com/$username/class_flow" -ForegroundColor Green 

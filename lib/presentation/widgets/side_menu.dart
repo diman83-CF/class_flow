@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../domain/entities/menu_item.dart';
+import '../menu_item.dart';
 
 class SideMenu extends StatelessWidget {
   final List<MenuItem> menuItems;

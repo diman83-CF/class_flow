@@ -5,6 +5,9 @@ import '../widgets/dynamic_text.dart';
 import 'package:provider/provider.dart';
 import '../widgets/side_menu.dart';
 import '../providers/menu_provider.dart';
+import '../widgets/dynamic_table.dart';
+import '../../data/mock/mock_students.dart';
+import '../../domain/entities/student.dart';
 
 class StudentsPage extends StatefulWidget {
   const StudentsPage({super.key});
@@ -15,11 +18,13 @@ class StudentsPage extends StatefulWidget {
 
 class _StudentsPageState extends State<StudentsPage> {
   Business? _firstBusiness;
+  List<Student> _filteredStudents = [];
 
   @override
   void initState() {
     super.initState();
     _loadFirstBusiness();
+    _loadStudents();
   }
 
   Future<void> _loadFirstBusiness() async {
@@ -31,10 +36,63 @@ class _StudentsPageState extends State<StudentsPage> {
     }
   }
 
+  void _loadStudents() {
+    setState(() {
+      _filteredStudents = MockStudents.students;
+    });
+  }
+
+  void _filterStudents(String query) {
+    setState(() {
+      if (query.isEmpty) {
+        _filteredStudents = MockStudents.students;
+      } else {
+        _filteredStudents = MockStudents.students
+            .where((student) =>
+                student.fullName.toLowerCase().contains(query.toLowerCase()))
+            .toList();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final menuProvider = Provider.of<MenuProvider>(context);
     final isMobile = MediaQuery.of(context).size.width < 600;
+
+    // Define columns for the dynamic table
+    final List<TableColumn<Student>> columns = [
+      // Full Name - Text presentation
+      TableColumnHelper.fullName<Student>(
+        dataExtractor: (student) => student.fullName,
+        width: 2,
+        dataStyle: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+      
+      // Date of Birth - Chip presentation
+      TableColumnHelper.dateOfBirth<Student>(
+        dataExtractor: (student) => student.formattedDateOfBirth,
+        width: 1.5,
+        dataStyle: const TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      
+      // Level - Progress presentation
+      TableColumnHelper.level<Student>(
+        dataExtractor: (student) => student.level.toString(),
+        width: 1.5,
+        dataStyle: const TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ];
+
     return Scaffold(
       appBar: AppBar(
         title: DynamicText<Business?>(
@@ -73,27 +131,42 @@ class _StudentsPageState extends State<StudentsPage> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onChanged: (value) {
-                      // TODO: Implement search functionality
-                    },
+                    onChanged: _filterStudents,
                   ),
                 ),
                 Expanded(
-                  child: ListView.builder(
-                    padding: const EdgeInsets.all(16),
-                    itemCount: 0, // TODO: Replace with actual students
-                    itemBuilder: (context, index) {
-                      return const Card(
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            child: Icon(Icons.person),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: _filteredStudents.isEmpty
+                        ? const Center(
+                            child: Text(
+                              'No students found',
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          )
+                        : DynamicTable<Student>(
+                            records: _filteredStudents,
+                            columns: columns,
+                            showHeader: true,
+                            bordered: true,
+                            headerBackgroundColor: Colors.blue.shade50,
+                            rowBackgroundColor: Colors.white,
+                            alternateRowBackgroundColor: Colors.grey.shade50,
+                            rowHeight: 70,
+                            padding: const EdgeInsets.all(12),
+                            borderRadius: BorderRadius.circular(8),
+                            onRowTap: () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Student selected!'),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                            },
                           ),
-                          title: Text('Student Name'),
-                          subtitle: Text('Course • Status'),
-                          trailing: Icon(Icons.arrow_forward_ios),
-                        ),
-                      );
-                    },
                   ),
                 ),
               ],

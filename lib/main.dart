@@ -9,7 +9,7 @@ import 'presentation/pages/students_page.dart';
 import 'presentation/pages/trainers_page.dart';
 import 'presentation/pages/leads_page.dart';
 import 'presentation/providers/menu_provider.dart';
-import 'domain/entities/menu_item.dart';
+import 'presentation/menu_item.dart';
 
 void main() {
   runApp(
