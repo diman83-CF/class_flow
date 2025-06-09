@@ -1,4 +1,4 @@
-# Training Management System
+# Class Flow - Training Management System
 
 A comprehensive Flutter application for managing training programs, students, trainers, and activities. Built with modern Flutter architecture and best practices.
 
@@ -37,8 +37,8 @@ A comprehensive Flutter application for managing training programs, students, tr
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/training_management.git
-cd training_management
+git clone https://github.com/diman83-CF/class_flow.git
+cd class_flow
 ```
 
 ### 2. Install Dependencies
@@ -153,7 +153,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👥 Authors
 
-- Your Name - Initial work
+- diman83-CF - Initial work
 
 ## 🙏 Acknowledgments
 
@@ -166,4 +166,4 @@ If you have any questions or need support, please open an issue on GitHub or con
 
 ---
 
-**Note**: This is a training management system built with Flutter. Make sure to customize the configuration and features according to your specific requirements.
+**Note**: This is a class management system built with Flutter. Make sure to customize the configuration and features according to your specific requirements.

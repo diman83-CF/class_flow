@@ -1,5 +1,5 @@
-name: training_management
-description: A training management application built with Flutter.
+name: class_flow
+description: A class management application built with Flutter.
 publish_to: 'none'
 version: 1.0.0+1
 
