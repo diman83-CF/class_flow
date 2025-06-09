@@ -5,7 +5,7 @@ Write-Host "GitHub Setup Script for Flutter Training Management Project" -Foregr
 Write-Host "=========================================================" -ForegroundColor Green
 
 # Get GitHub username from user
-$username = Read-Host "Enter your GitHub username"
+$username = Read-Host "diman83-CF"
 
 if ([string]::IsNullOrWhiteSpace($username)) {
     Write-Host "Username cannot be empty. Exiting..." -ForegroundColor Red
