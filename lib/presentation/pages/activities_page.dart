@@ -44,12 +44,12 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
           textExtractor: (business) => business?.name ?? 'Activities',
         ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () {
-              // TODO: Implement add activity
-            },
-          ),
+          // IconButton(
+          //   icon: const Icon(Icons.add),
+          //   onPressed: () {
+          //     // TODO: Implement add activity
+          //   },
+          // ),
         ],
       ),
       body: Row(

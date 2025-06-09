@@ -44,12 +44,12 @@ class _TrainersPageState extends State<TrainersPage> {
           textExtractor: (business) => business?.name ?? 'Trainers',
         ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () {
-              // TODO: Implement add trainer
-            },
-          ),
+          // IconButton(
+          //   icon: const Icon(Icons.add),
+          //   onPressed: () {
+          //     // TODO: Implement add trainer
+          //   },
+          // ),
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {

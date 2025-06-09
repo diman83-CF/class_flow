@@ -45,12 +45,6 @@ class _LeadsPageState extends State<LeadsPage> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () {
-              // TODO: Implement add lead
-            },
-          ),
-          IconButton(
             icon: const Icon(Icons.filter_list),
             onPressed: () {
               // TODO: Implement filter

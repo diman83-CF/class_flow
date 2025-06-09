@@ -102,12 +102,12 @@ class _StudentsPageState extends State<StudentsPage> {
           textExtractor: (business) => business?.name ?? 'Students',
         ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () {
-              // TODO: Implement add student
-            },
-          ),
+          // IconButton(
+          //   icon: const Icon(Icons.add),
+          //   onPressed: () {
+          //     // TODO: Implement add student
+          //   },
+          // ),
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {
