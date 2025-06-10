@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../menu_item.dart';
+import '../../core/localization/localization_provider.dart';
 
 class SideMenu extends StatelessWidget {
   final List<MenuItem> menuItems;
@@ -29,6 +31,8 @@ class SideMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizationProvider = Provider.of<LocalizationProvider>(context);
+    
     // Sort menu items by order and filter visible items
     final sortedItems = menuItems
         .where((item) => item.isVisible)
@@ -38,14 +42,14 @@ class SideMenu extends StatelessWidget {
     return Container(
       width: width,
       color: backgroundColor ?? Theme.of(context).drawerTheme.backgroundColor ?? Colors.white,
-      child: ListView.builder(
-        itemCount: sortedItems.length,
-        itemBuilder: (context, index) {
-          final item = sortedItems[index];
-          final isSelected = item.route == selectedRoute;
-          return Directionality(
-            textDirection: TextDirection.rtl,
-            child: Stack(
+      child: Directionality(
+        textDirection: localizationProvider.textDirection,
+        child: ListView.builder(
+          itemCount: sortedItems.length,
+          itemBuilder: (context, index) {
+            final item = sortedItems[index];
+            final isSelected = item.route == selectedRoute;
+            return Stack(
               children: [
                 AnimatedContainer(
                   duration: const Duration(milliseconds: 200),
@@ -71,7 +75,7 @@ class SideMenu extends StatelessWidget {
                             color: isSelected ? activeBarColor : unselectedItemColor ?? Colors.grey,
                             fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                           ),
-                      textAlign: TextAlign.right,
+                      textAlign: localizationProvider.isRTL ? TextAlign.right : TextAlign.left,
                     ),
                     onTap: () => onNavigate(item.route),
                     contentPadding: const EdgeInsets.symmetric(horizontal: 16),
@@ -79,7 +83,8 @@ class SideMenu extends StatelessWidget {
                 ),
                 if (isSelected)
                   Positioned(
-                    right: 0,
+                    right: localizationProvider.isRTL ? null : 0,
+                    left: localizationProvider.isRTL ? 0 : null,
                     top: 8,
                     bottom: 8,
                     child: Container(
@@ -91,9 +96,9 @@ class SideMenu extends StatelessWidget {
                     ),
                   ),
               ],
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

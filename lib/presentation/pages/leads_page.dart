@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../data/providers/business_provider.dart';
 import '../../domain/entities/business.dart';
 import '../widgets/dynamic_text.dart';
-import 'package:provider/provider.dart';
 import '../widgets/side_menu.dart';
 import '../providers/menu_provider.dart';
+import '../widgets/language_selector.dart';
+import '../../core/localization/localization_provider.dart';
 
 class LeadsPage extends StatefulWidget {
   const LeadsPage({super.key});
@@ -34,16 +36,19 @@ class _LeadsPageState extends State<LeadsPage> {
   @override
   Widget build(BuildContext context) {
     final menuProvider = Provider.of<MenuProvider>(context);
+    final localizationProvider = Provider.of<LocalizationProvider>(context);
     final isMobile = MediaQuery.of(context).size.width < 600;
+    
     return Scaffold(
       appBar: AppBar(
         title: DynamicText<Business?>(
           object: _firstBusiness,
-          staticText: 'Leads',
+          staticText: localizationProvider.translate('leads.title'),
           style: const TextStyle(fontSize: 20),
-          textExtractor: (business) => business?.name ?? 'Leads',
+          textExtractor: (business) => business?.name ?? localizationProvider.translate('leads.title'),
         ),
         actions: [
+          const LanguageSelector(),
           IconButton(
             icon: const Icon(Icons.filter_list),
             onPressed: () {
@@ -52,121 +57,118 @@ class _LeadsPageState extends State<LeadsPage> {
           ),
         ],
       ),
-      body: Row(
-        children: [
-          Expanded(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          decoration: InputDecoration(
-                            hintText: 'Search leads...',
-                            prefixIcon: const Icon(Icons.search),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
+      body: Directionality(
+        textDirection: localizationProvider.textDirection,
+        child: Stack(
+          children: [
+            // Main content
+            Positioned.fill(
+              child: Padding(
+                padding: EdgeInsets.only(
+                  left: !isMobile && localizationProvider.isLTR ? 250 : 0,
+                  right: !isMobile && localizationProvider.isRTL ? 250 : 0,
+                ),
+                child: Column(
+                  children: [
+                    // Search and filter bar
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              decoration: InputDecoration(
+                                hintText: localizationProvider.translate('leads.search_placeholder'),
+                                prefixIcon: const Icon(Icons.search),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                              onChanged: (value) {
+                                // TODO: Implement search
+                              },
                             ),
                           ),
-                          onChanged: (value) {
-                            // TODO: Implement search functionality
-                          },
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      PopupMenuButton<String>(
-                        icon: const Icon(Icons.filter_list),
-                        onSelected: (value) {
-                          // TODO: Implement filtering
-                        },
-                        itemBuilder: (context) => [
-                          const PopupMenuItem(
-                            value: 'new',
-                            child: Text('New Leads'),
-                          ),
-                          const PopupMenuItem(
-                            value: 'contacted',
-                            child: Text('Contacted'),
-                          ),
-                          const PopupMenuItem(
-                            value: 'qualified',
-                            child: Text('Qualified'),
-                          ),
-                          const PopupMenuItem(
-                            value: 'converted',
-                            child: Text('Converted'),
+                          const SizedBox(width: 16),
+                          PopupMenuButton<String>(
+                            icon: const Icon(Icons.filter_list),
+                            onSelected: (value) {
+                              // TODO: Implement filtering
+                            },
+                            itemBuilder: (context) => [
+                              PopupMenuItem(
+                                value: 'new',
+                                child: Text(localizationProvider.translate('leads.filter.new')),
+                              ),
+                              PopupMenuItem(
+                                value: 'contacted',
+                                child: Text(localizationProvider.translate('leads.filter.contacted')),
+                              ),
+                              PopupMenuItem(
+                                value: 'qualified',
+                                child: Text(localizationProvider.translate('leads.filter.qualified')),
+                              ),
+                              PopupMenuItem(
+                                value: 'converted',
+                                child: Text(localizationProvider.translate('leads.filter.converted')),
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    padding: const EdgeInsets.all(16),
-                    itemCount: 0, // TODO: Replace with actual leads
-                    itemBuilder: (context, index) {
-                      return Card(
-                        child: ListTile(
-                          leading: const CircleAvatar(
-                            child: Icon(Icons.person_outline),
+                    ),
+                    
+                    // Leads content
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                          localizationProvider.translate('leads.no_leads_found'),
+                          style: const TextStyle(
+                            fontSize: 18,
+                            color: Colors.grey,
                           ),
-                          title: const Text('Lead Name'),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              Text('Contact Info'),
-                              SizedBox(height: 4),
-                              Chip(
-                                label: Text('New'),
-                                backgroundColor: Colors.blue,
-                                labelStyle: TextStyle(color: Colors.white),
-                              ),
-                            ],
-                          ),
-                          trailing: PopupMenuButton<String>(
-                            onSelected: (value) {
-                              // TODO: Implement lead actions
-                            },
-                            itemBuilder: (context) => [
-                              const PopupMenuItem(
-                                value: 'contact',
-                                child: Text('Contact'),
-                              ),
-                              const PopupMenuItem(
-                                value: 'qualify',
-                                child: Text('Qualify'),
-                              ),
-                              const PopupMenuItem(
-                                value: 'convert',
-                                child: Text('Convert'),
-                              ),
-                              const PopupMenuItem(
-                                value: 'delete',
-                                child: Text('Delete'),
-                              ),
-                            ],
-                          ),
+                          textAlign: localizationProvider.isRTL ? TextAlign.right : TextAlign.left,
                         ),
-                      );
-                    },
-                  ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
-          if (!isMobile)
-            SideMenu(
-              menuItems: menuProvider.menuItems,
-              selectedRoute: menuProvider.currentRoute,
-              onNavigate: (route) {
-                menuProvider.setCurrentRoute(route);
-                Navigator.of(context).pushReplacementNamed(route);
-              },
-            ),
-        ],
+            
+            // Side menu for LTR (left side)
+            if (!isMobile && localizationProvider.isLTR)
+              Positioned(
+                left: 0,
+                top: 0,
+                bottom: 0,
+                child: SideMenu(
+                  menuItems: menuProvider.menuItems,
+                  selectedRoute: menuProvider.currentRoute,
+                  onNavigate: (route) {
+                    menuProvider.setCurrentRoute(route);
+                    Navigator.of(context).pushReplacementNamed(route);
+                  },
+                ),
+              ),
+            
+            // Side menu for RTL (right side)
+            if (!isMobile && localizationProvider.isRTL)
+              Positioned(
+                right: 0,
+                top: 0,
+                bottom: 0,
+                child: SideMenu(
+                  menuItems: menuProvider.menuItems,
+                  selectedRoute: menuProvider.currentRoute,
+                  onNavigate: (route) {
+                    menuProvider.setCurrentRoute(route);
+                    Navigator.of(context).pushReplacementNamed(route);
+                  },
+                ),
+              ),
+          ],
+        ),
       ),
       bottomNavigationBar: isMobile
           ? NavigationBar(
@@ -176,22 +178,22 @@ class _LeadsPageState extends State<LeadsPage> {
                 menuProvider.setCurrentRoute(routes[index]);
                 Navigator.of(context).pushReplacementNamed(routes[index]);
               },
-              destinations: const [
+              destinations: [
                 NavigationDestination(
-                  icon: Icon(Icons.calendar_today),
-                  label: 'Activities',
+                  icon: const Icon(Icons.calendar_today),
+                  label: localizationProvider.activities,
                 ),
                 NavigationDestination(
-                  icon: Icon(Icons.people),
-                  label: 'Students',
+                  icon: const Icon(Icons.people),
+                  label: localizationProvider.students,
                 ),
                 NavigationDestination(
-                  icon: Icon(Icons.school),
-                  label: 'Trainers',
+                  icon: const Icon(Icons.school),
+                  label: localizationProvider.trainers,
                 ),
                 NavigationDestination(
-                  icon: Icon(Icons.leaderboard),
-                  label: 'Leads',
+                  icon: const Icon(Icons.leaderboard),
+                  label: localizationProvider.leads,
                 ),
               ],
             )

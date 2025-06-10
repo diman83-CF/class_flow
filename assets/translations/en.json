@@ -1,0 +1,94 @@
+{
+  "app": {
+    "title": "Training Management",
+    "welcome": "Welcome to Training Management",
+    "select_section": "Select a section from the menu to get started"
+  },
+  "navigation": {
+    "home": "Home",
+    "activities": "Activities",
+    "students": "Students",
+    "trainers": "Trainers",
+    "leads": "Leads"
+  },
+  "menu": {
+    "home": "Home",
+    "activities": "Activities",
+    "students": "Students",
+    "trainers": "Trainers",
+    "leads": "Leads"
+  },
+  "activities": {
+    "title": "Activities",
+    "search_placeholder": "Search activities...",
+    "no_activities_found": "No activities found",
+    "activity_selected": "Activity selected!",
+    "filter": {
+      "all": "All Activities",
+      "active": "Active",
+      "completed": "Completed"
+    },
+    "columns": {
+      "activity_name": "Activity Name",
+      "type": "Type",
+      "start_date": "Start Date",
+      "end_date": "End Date",
+      "sessions_per_week": "Sessions/Week",
+      "time": "Time",
+      "max_students": "Max Students"
+    }
+  },
+  "students": {
+    "title": "Students",
+    "search_placeholder": "Search students...",
+    "no_students_found": "No students found",
+    "student_selected": "Student selected!",
+    "filter": {
+      "all": "All Students",
+      "active": "Active",
+      "inactive": "Inactive"
+    }
+  },
+  "trainers": {
+    "title": "Trainers",
+    "search_placeholder": "Search trainers...",
+    "no_trainers_found": "No trainers found",
+    "trainer_selected": "Trainer selected!",
+    "filter": {
+      "all": "All Trainers",
+      "active": "Active",
+      "inactive": "Inactive"
+    }
+  },
+  "leads": {
+    "title": "Leads",
+    "search_placeholder": "Search leads...",
+    "no_leads_found": "No leads found",
+    "lead_selected": "Lead selected!",
+    "filter": {
+      "new": "New Leads",
+      "contacted": "Contacted",
+      "qualified": "Qualified",
+      "converted": "Converted"
+    }
+  },
+  "common": {
+    "search": "Search",
+    "add": "Add",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "cancel": "Cancel",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "no_data": "No data available",
+    "sort_by_name": "Sort by Name",
+    "sort_by_experience": "Sort by Experience",
+    "sort_by_rating": "Sort by Rating"
+  },
+  "language": {
+    "english": "English",
+    "hebrew": "עברית"
+  }
+} 

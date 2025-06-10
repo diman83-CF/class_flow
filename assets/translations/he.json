@@ -1,0 +1,94 @@
+{
+  "app": {
+    "title": "ניהול אימונים",
+    "welcome": "ברוכים הבאים למערכת ניהול אימונים",
+    "select_section": "בחרו קטגוריה מהתפריט כדי להתחיל"
+  },
+  "navigation": {
+    "home": "דף הבית",
+    "activities": "מסגרות",
+    "students": "תלמידים",
+    "trainers": "מאמנים",
+    "leads": "לידים"
+  },
+  "menu": {
+    "home": "דף הבית",
+    "activities": "מסגרות",
+    "students": "תלמידים",
+    "trainers": "מאמנים",
+    "leads": "לידים"
+  },
+  "activities": {
+    "title": "פעילויות",
+    "search_placeholder": "חיפוש פעילויות...",
+    "no_activities_found": "לא נמצאו פעילויות",
+    "activity_selected": "פעילות נבחרה!",
+    "filter": {
+      "all": "כל הפעילויות",
+      "active": "פעיל",
+      "completed": "הושלם"
+    },
+    "columns": {
+      "activity_name": "שם הפעילות",
+      "type": "סוג",
+      "start_date": "תאריך התחלה",
+      "end_date": "תאריך סיום",
+      "sessions_per_week": "מפגשים/שבוע",
+      "time": "זמן",
+      "max_students": "מקסימום תלמידים"
+    }
+  },
+  "students": {
+    "title": "תלמידים",
+    "search_placeholder": "חיפוש תלמידים...",
+    "no_students_found": "לא נמצאו תלמידים",
+    "student_selected": "תלמיד נבחר!",
+    "filter": {
+      "all": "כל התלמידים",
+      "active": "פעיל",
+      "inactive": "לא פעיל"
+    }
+  },
+  "trainers": {
+    "title": "מאמנים",
+    "search_placeholder": "חיפוש מאמנים...",
+    "no_trainers_found": "לא נמצאו מאמנים",
+    "trainer_selected": "מאמן נבחר!",
+    "filter": {
+      "all": "כל המאמנים",
+      "active": "פעיל",
+      "inactive": "לא פעיל"
+    }
+  },
+  "leads": {
+    "title": "לידים",
+    "search_placeholder": "חיפוש לידים...",
+    "no_leads_found": "לא נמצאו לידים",
+    "lead_selected": "ליד נבחר!",
+    "filter": {
+      "new": "לידים חדשים",
+      "contacted": "נוצר קשר",
+      "qualified": "מוכשרים",
+      "converted": "הומרו"
+    }
+  },
+  "common": {
+    "search": "חיפוש",
+    "add": "הוסף",
+    "edit": "ערוך",
+    "delete": "מחק",
+    "save": "שמור",
+    "cancel": "ביטול",
+    "loading": "טוען...",
+    "error": "שגיאה",
+    "success": "הצלחה",
+    "no_data": "אין נתונים זמינים",
+    "sort_by_name": "מיון לפי שם",
+    "sort_by_experience": "מיון לפי ניסיון",
+    "sort_by_rating": "מיון לפי דירוג"
+  },
+  "language": {
+    "english": "English",
+    "hebrew": "עברית"
+  }
+} 

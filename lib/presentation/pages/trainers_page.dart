@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../data/providers/business_provider.dart';
 import '../../domain/entities/business.dart';
 import '../widgets/dynamic_text.dart';
-import 'package:provider/provider.dart';
 import '../widgets/side_menu.dart';
 import '../providers/menu_provider.dart';
+import '../widgets/language_selector.dart';
+import '../../core/localization/localization_provider.dart';
 
 class TrainersPage extends StatefulWidget {
   const TrainersPage({super.key});
@@ -34,22 +36,19 @@ class _TrainersPageState extends State<TrainersPage> {
   @override
   Widget build(BuildContext context) {
     final menuProvider = Provider.of<MenuProvider>(context);
+    final localizationProvider = Provider.of<LocalizationProvider>(context);
     final isMobile = MediaQuery.of(context).size.width < 600;
+    
     return Scaffold(
       appBar: AppBar(
         title: DynamicText<Business?>(
           object: _firstBusiness,
-          staticText: 'Trainers',
+          staticText: localizationProvider.translate('trainers.title'),
           style: const TextStyle(fontSize: 20),
-          textExtractor: (business) => business?.name ?? 'Trainers',
+          textExtractor: (business) => business?.name ?? localizationProvider.translate('trainers.title'),
         ),
         actions: [
-          // IconButton(
-          //   icon: const Icon(Icons.add),
-          //   onPressed: () {
-          //     // TODO: Implement add trainer
-          //   },
-          // ),
+          const LanguageSelector(),
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {
@@ -58,84 +57,114 @@ class _TrainersPageState extends State<TrainersPage> {
           ),
         ],
       ),
-      body: Row(
-        children: [
-          Expanded(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          decoration: InputDecoration(
-                            hintText: 'Search trainers...',
-                            prefixIcon: const Icon(Icons.search),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
+      body: Directionality(
+        textDirection: localizationProvider.textDirection,
+        child: Stack(
+          children: [
+            // Main content
+            Positioned.fill(
+              child: Padding(
+                padding: EdgeInsets.only(
+                  left: !isMobile && localizationProvider.isLTR ? 250 : 0,
+                  right: !isMobile && localizationProvider.isRTL ? 250 : 0,
+                ),
+                child: Column(
+                  children: [
+                    // Search and filter bar
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              decoration: InputDecoration(
+                                hintText: localizationProvider.translate('trainers.search_placeholder'),
+                                prefixIcon: const Icon(Icons.search),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                              onChanged: (value) {
+                                // TODO: Implement search
+                              },
                             ),
                           ),
-                          onChanged: (value) {
-                            // TODO: Implement search functionality
-                          },
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      PopupMenuButton<String>(
-                        icon: const Icon(Icons.sort),
-                        onSelected: (value) {
-                          // TODO: Implement sorting
-                        },
-                        itemBuilder: (context) => [
-                          const PopupMenuItem(
-                            value: 'name',
-                            child: Text('Sort by Name'),
-                          ),
-                          const PopupMenuItem(
-                            value: 'experience',
-                            child: Text('Sort by Experience'),
-                          ),
-                          const PopupMenuItem(
-                            value: 'rating',
-                            child: Text('Sort by Rating'),
+                          const SizedBox(width: 16),
+                          PopupMenuButton<String>(
+                            icon: const Icon(Icons.filter_list),
+                            onSelected: (value) {
+                              // TODO: Implement filtering
+                            },
+                            itemBuilder: (context) => [
+                              PopupMenuItem(
+                                value: 'all',
+                                child: Text(localizationProvider.translate('trainers.filter.all')),
+                              ),
+                              PopupMenuItem(
+                                value: 'active',
+                                child: Text(localizationProvider.translate('trainers.filter.active')),
+                              ),
+                              PopupMenuItem(
+                                value: 'inactive',
+                                child: Text(localizationProvider.translate('trainers.filter.inactive')),
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    padding: const EdgeInsets.all(16),
-                    itemCount: 0, // TODO: Replace with actual trainers
-                    itemBuilder: (context, index) {
-                      return const Card(
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            child: Icon(Icons.school),
+                    ),
+                    
+                    // Trainers content
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                          localizationProvider.translate('trainers.no_trainers_found'),
+                          style: const TextStyle(
+                            fontSize: 18,
+                            color: Colors.grey,
                           ),
-                          title: Text('Trainer Name'),
-                          subtitle: Text('Specialization • Experience'),
-                          trailing: Icon(Icons.arrow_forward_ios),
+                          textAlign: localizationProvider.isRTL ? TextAlign.right : TextAlign.left,
                         ),
-                      );
-                    },
-                  ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
-          if (!isMobile)
-            SideMenu(
-              menuItems: menuProvider.menuItems,
-              selectedRoute: menuProvider.currentRoute,
-              onNavigate: (route) {
-                menuProvider.setCurrentRoute(route);
-                Navigator.of(context).pushReplacementNamed(route);
-              },
-            ),
-        ],
+            
+            // Side menu for LTR (left side)
+            if (!isMobile && localizationProvider.isLTR)
+              Positioned(
+                left: 0,
+                top: 0,
+                bottom: 0,
+                child: SideMenu(
+                  menuItems: menuProvider.menuItems,
+                  selectedRoute: menuProvider.currentRoute,
+                  onNavigate: (route) {
+                    menuProvider.setCurrentRoute(route);
+                    Navigator.of(context).pushReplacementNamed(route);
+                  },
+                ),
+              ),
+            
+            // Side menu for RTL (right side)
+            if (!isMobile && localizationProvider.isRTL)
+              Positioned(
+                right: 0,
+                top: 0,
+                bottom: 0,
+                child: SideMenu(
+                  menuItems: menuProvider.menuItems,
+                  selectedRoute: menuProvider.currentRoute,
+                  onNavigate: (route) {
+                    menuProvider.setCurrentRoute(route);
+                    Navigator.of(context).pushReplacementNamed(route);
+                  },
+                ),
+              ),
+          ],
+        ),
       ),
       bottomNavigationBar: isMobile
           ? NavigationBar(
@@ -145,22 +174,22 @@ class _TrainersPageState extends State<TrainersPage> {
                 menuProvider.setCurrentRoute(routes[index]);
                 Navigator.of(context).pushReplacementNamed(routes[index]);
               },
-              destinations: const [
+              destinations: [
                 NavigationDestination(
-                  icon: Icon(Icons.calendar_today),
-                  label: 'Activities',
+                  icon: const Icon(Icons.calendar_today),
+                  label: localizationProvider.activities,
                 ),
                 NavigationDestination(
-                  icon: Icon(Icons.people),
-                  label: 'Students',
+                  icon: const Icon(Icons.people),
+                  label: localizationProvider.students,
                 ),
                 NavigationDestination(
-                  icon: Icon(Icons.school),
-                  label: 'Trainers',
+                  icon: const Icon(Icons.school),
+                  label: localizationProvider.trainers,
                 ),
                 NavigationDestination(
-                  icon: Icon(Icons.leaderboard),
-                  label: 'Leads',
+                  icon: const Icon(Icons.leaderboard),
+                  label: localizationProvider.leads,
                 ),
               ],
             )
